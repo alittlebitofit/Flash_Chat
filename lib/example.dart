@@ -47,7 +47,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final _textAnimationKit = <Widget>[
+  List<Widget> get _textAnimationKit => <Widget>[
     ListView(
       scrollDirection: Axis.horizontal,
       children: <Widget>[
@@ -57,7 +57,6 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: 20.0,
               height: 100.0,
-              child:Container(color:Colors.green),
             ),
             Text(
               'Be',
@@ -66,12 +65,9 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: 20.0,
               height: 100.0,
-              child:Container(color:Colors.green),
             ),
             RotateAnimatedTextKit(
-              onTap: () {
-                print('Tap Event');
-              },
+              onTap: () => _onTap(),
               isRepeatingAnimation: true,
               totalRepeatCount: 10,
               text: ['AWESOME', 'OPTIMISTIC', 'DIFFERENT'],
@@ -83,18 +79,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     ),
     FadeAnimatedTextKit(
-      onTap: () {
-        print('Tap Event');
-      },
+      onTap: () => _onTap(),
       text: ['do IT!', 'do it RIGHT!!', 'do it RIGHT NOW!!!'],
       textStyle: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
     ),
     SizedBox(
       width: 250.0,
       child: TyperAnimatedTextKit(
-        onTap: () {
-          print('Tap Event');
-        },
+        onTap: () => _onTap(),
         text: [
           'It is not enough to do your best,',
           'you must know what to do,',
@@ -107,9 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
     SizedBox(
       width: 250.0,
       child: TypewriterAnimatedTextKit(
-        onTap: () {
-          print('Tap Event');
-        },
+        onTap: () => _onTap(),
         text: [
           'Discipline is the best tool',
           'Design first, then code',
@@ -120,18 +110,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ),
     ScaleAnimatedTextKit(
-      onTap: () {
-        print('Tap Event');
-      },
+      onTap: () => _onTap(),
       text: ['Think', 'Build', 'Ship'],
       textStyle: TextStyle(fontSize: 70.0, fontFamily: 'Canterbury'),
     ),
 
     /// colors.length >= 2
     ColorizeAnimatedTextKit(
-      onTap: () {
-        print('Tap Event');
-      },
+      onTap: () => _onTap(),
       text: [
         'Larry Page',
         'Bill Gates',
@@ -178,6 +164,15 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   int _index = 0;
+  int _tapCount = 0;
+
+  void _onTap() {
+    print('Tap Event');
+    setState(() {
+      _tapCount++;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -185,26 +180,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: <Widget>[
           SizedBox(
-            height: 90.0,
+            height: 30.0,
             width: double.maxFinite,
-            child:Container(color:Colors.green),
           ),
           Text(
             labels[_index],
             style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
           ),
           Expanded(
-            child: Container(
-              child: Center(
-                child: Text(
-                  'Empty container',
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              ),
-              color: Colors.white,
-            ),
+            child: Container(),
           ),
           Container(
             decoration: BoxDecoration(color: _colors[_index]),
@@ -213,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
             width: 300.0,
           ),
           Expanded(
-            child:Container(color:Colors.green),
+            child:Container(),
           ),
           InkWell(
             child: Icon(
@@ -229,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             height: 20.0,
             width: double.infinity,
-            child:Container(color:Colors.green),
+            child:Container(),
           ),
         ],
       ),

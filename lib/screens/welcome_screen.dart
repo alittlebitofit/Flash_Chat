@@ -1,10 +1,17 @@
-import 'package:flash_chat/screens/registration_screen.dart';
+// material package
 import 'package:flutter/material.dart';
 
+// screens
 import 'login_screen.dart';
+import 'registration_screen.dart';
 
+// flutter package
 import 'package:animated_text_kit/animated_text_kit.dart';
 
+// component
+import 'package:flash_chat/components/signing_button.dart';
+
+// code
 class WelcomeScreen extends StatefulWidget {
   static const String id = 'welcome_screen';
 
@@ -14,70 +21,38 @@ class WelcomeScreen extends StatefulWidget {
 
 class _WelcomeScreenState extends State<WelcomeScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation animation;
+  AnimationController _animationController;
+  Animation _animation;
 
   @override
   void initState() {
     super.initState();
-    try {
-      controller = AnimationController(
-        duration: Duration(seconds: 1),
-        vsync: this,
-      );
+    _setUpAnimation();
+  }
 
-      if (controller == null) {
-        print('Goodnight everybody');
-      } else {
-        print('Hello everybody');
-      }
-
-      animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
-          .animate(controller);
-
-      // animation = CurvedAnimation(parent: controller, curve: Curves.bounceOut);
-
-      controller.forward();
-
-      int counter = 0;
-      animation.addStatusListener((status) {
-        print(status);
-        print(counter);
-      });
-
-      controller.addListener(() {
-        setState(() {});
-        // print(animation.value);
-        ++counter;
-      });
-
-      CircularProgressIndicator();
-    } catch (e) {
-      print('YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO');
-      print(e.toString());
-    }
-
-    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~');
+  void _setUpAnimation() {
+    _animationController = AnimationController(
+      duration: Duration(seconds: 1),
+      vsync: this,
+    );
+    _animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
+        .animate(_animationController);
+    _animationController.forward();
+    _animationController.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (controller == null) {
-      print('controller seems to be null in build()');
-      return null;
-    }
-
-    print('controller seems to not be null in build()');
-
-
     return Scaffold(
-      backgroundColor: animation.value,
+      backgroundColor: _animation.value,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -93,28 +68,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     height: 60,
                   ),
                 ),
-                // SizedBox(
-                //   width: 250,
-                //   child: Container(
-                //     color: Colors.red,
-                //     child: TypewriterAnimatedTextKit(
-                //       onTap: () {
-                //         print('Tap Event');
-                //       },
-                //       text: [
-                //         'Discipline is the best tool',
-                //         'Design first, then code',
-                //         'Do not patch bugs out, rewrite them',
-                //         'Do not test bugs out, design them out',
-                //       ],
-                //       textStyle: TextStyle(
-                //         fontSize: 30.0,
-                //         fontFamily: 'Agne',
-                //         color: Colors.grey.shade600,
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 TypewriterAnimatedTextKit(
                   speed: Duration(milliseconds: 200),
                   text: ['Flash Chat'],
@@ -129,41 +82,19 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             SizedBox(
               height: 48.0,
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                elevation: 5.0,
-                color: Colors.lightBlueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, LoginScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Log In',
-                  ),
-                ),
-              ),
+            SigningButton(
+              buttonColor: Colors.lightBlueAccent,
+              onPressed: (){
+                Navigator.pushNamed(context, LoginScreen.id);
+              },
+              buttonText: 'Log In',
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.0),
-              child: Material(
-                color: Colors.blueAccent,
-                borderRadius: BorderRadius.circular(30.0),
-                elevation: 5.0,
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Register',
-                  ),
-                ),
-              ),
+            SigningButton(
+              buttonColor: Colors.blueAccent,
+              onPressed: (){
+                Navigator.pushNamed(context, RegistrationScreen.id);
+              },
+              buttonText: 'Register',
             ),
           ],
         ),
